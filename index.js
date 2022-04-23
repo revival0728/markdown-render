@@ -47,17 +47,31 @@ function addMdTag(doc) {
         let headings = doc.getElementsByTagName(tag)
 
         for (let i = 0; i < headings.length; i++) {
-            headings[i].innerHTML += ' '
-            headings[i].innterHTML += `<a id="${headings[i].textContent}" href="#${headings[i].textContent}"><img src="svg/link" alt="linkSvg"></img></a>`
+            headings[i].set_content(`${headings[i].textContent} <a id="${headings[i].textContent}" href="#${headings[i].textContent}"><i class="bi bi-link" style="color: rgb(26, 83, 255);"></i></a>`)
         }
     })
 
     return doc
 }
 
+function setAutoChangeLine(mdString) {
+    let lines = mdString.split('\n')
+    let res = ''
+    let changeLine = true
+    for(let i = 0; i < lines.length; i++) {
+        if(lines[i].indexOf('```') != -1)
+            changeLine = !changeLine
+        if(changeLine)
+            res += lines[i] + '\n\n'
+        else
+            res += lines[i] + '\n'
+    }
+    return res
+}
 
-export function renderMdToHtml(mdString, withIndent=false) {
-    const DomParser = require('dom-parser')
+export function renderMdToHtml(mdString, options={}) {
+    const htmlParser = require('node-html-parser')
+    const matter = require('gray-matter')
     const hljs = require('highlight.js')
     const emoji = require('markdown-it-emoji')
     const container = require('markdown-it-container')
@@ -98,14 +112,29 @@ export function renderMdToHtml(mdString, withIndent=false) {
         }
     })
 
-    const htmlParser = new DomParser()
+    // set default option value
+    if(!('autoChangeLine' in options))
+        options.autoChangeLine = false
+    if(!('withIndent' in options))
+        options.autoChangeLine = false
+
+    let matterResult = matter(mdString)
+
+    mdString = matterResult.content
+
+    if(options.autoChangeLine)
+        mdString = setAutoChangeLine(mdString)
+
     let mdHTML = md.render(mdString)
 
-    if(withIndent)
+    if(options.withIndent)
         mdHTML = `<div class="markdown-body markdown-indent" id="markdown-body">${renderKatex(mdHTML)}</div>`
     else
         mdHTML = `<div class="markdown-body" id="markdown-body">${renderKatex(mdHTML)}</div>`
-    mdHTML = htmlParser.parseFromString(mdHTML)
-    //mdHTML = addMdTag(mdHTML)
-    return mdHTML.getElementById('markdown-body').outerHTML
+    mdHTML = htmlParser.parse(mdHTML)
+    mdHTML = addMdTag(mdHTML)
+    return {
+        content: mdHTML.getElementById('markdown-body').outerHTML,
+        data: matterResult.data
+    }
 }
