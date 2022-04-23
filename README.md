@@ -67,7 +67,7 @@ The `autoChangeLine` is useful when editing a handout or blog because you don't 
 The `withIndent` is useful when the web page only shows the markdown content.
 
 ## Katex Supprot
-It only support **$** when rendering the katex syntax
+Only support **$** when rendering the katex syntax
 
 ```markdown
 $e^{i\pi} + 1 = 0$
