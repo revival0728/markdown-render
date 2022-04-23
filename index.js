@@ -44,27 +44,20 @@ function addMdTag(doc) {
     let headingTags = ['h1', 'h2', 'h3']
     
     headingTags.forEach((tag) => {
-        let mdHeadingText = []
         let headings = doc.getElementsByTagName(tag)
 
         for (let i = 0; i < headings.length; i++) {
-            mdHeadingText.push(headings[i].textContent)
-            let link = doc.createElement('a')
-            let icon = doc.createElement('img')
-            icon.setAttribute('src', 'svg/link.svg')
-            icon.setAttribute('alt', 'linkSvg')
-            link.appendChild(icon)
-            link.setAttribute('id', headings[i].textContent)
-            link.setAttribute('href', `#${headings[i].textContent}`)
             headings[i].innerHTML += ' '
-            headings[i].appendChild(link)
+            headings[i].innterHTML += `<a id="${headings[i].textContent}" href="#${headings[i].textContent}"><img src="svg/link" alt="linkSvg"></img></a>`
         }
     })
 
     return doc
 }
 
-function renderMdToHtml(mdString, withIndent=false) {
+
+export function renderMdToHtml(mdString, withIndent=false) {
+    const DomParser = require('dom-parser')
     const hljs = require('highlight.js')
     const emoji = require('markdown-it-emoji')
     const container = require('markdown-it-container')
@@ -105,14 +98,14 @@ function renderMdToHtml(mdString, withIndent=false) {
         }
     })
 
-    let htmlParser = new DOMParser()
+    const htmlParser = new DomParser()
     let mdHTML = md.render(mdString)
 
     if(withIndent)
-        mdHTML = `<div class="markdown-body" id="markdown-body">${renderKatex(mdHTML)}</div>`
+        mdHTML = `<div class="markdown-body markdown-indent" id="markdown-body">${renderKatex(mdHTML)}</div>`
     else
-        mdHTML = `<div id="markdown-body">${renderKatex(mdHTML)}</div>`
+        mdHTML = `<div class="markdown-body" id="markdown-body">${renderKatex(mdHTML)}</div>`
     mdHTML = htmlParser.parseFromString(mdHTML)
-    mdHTML = addMdTag(mdHTML)
-    return mdHTML.getElementsByClassName('markdown-body').outerHTML
+    //mdHTML = addMdTag(mdHTML)
+    return mdHTML.getElementById('markdown-body').outerHTML
 }
