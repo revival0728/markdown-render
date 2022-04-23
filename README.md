@@ -1,9 +1,12 @@
 # markdown-render
-A markdown render based on markown-it
+This markdown render support `katex`, `emoji`, **spoiler container** and automatically add **heading link**. (based on markdown-it)
+
+## Installation
+```
+npm install @revival0728/markdown-render
+```
 
 ## Usage
-This markdown render support `katex`, `emoji`, **spoiler container** and automatically add **heading link**.
-
 ```js
 const mdRender = require('@revival0728/markdown-render');
 
