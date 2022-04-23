@@ -6,6 +6,23 @@ This markdown render support `katex`, `emoji`, **spoiler container** and automat
 npm install @revival0728/markdown-render
 ```
 
+## Add CSS
+To add CSS to your web page.
+
+use
+
+```css
+@import url('https://cdn.jsdelivr.net/npm/@revival0728/markdown-render@lastest/index.css');
+```
+in your global css
+
+or
+
+```js
+import 'node_module/@revival0728/markdown-render/index.css'
+```
+in your javascript file
+
 ## Usage
 ```js
 const mdRender = require('@revival0728/markdown-render');
