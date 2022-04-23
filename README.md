@@ -12,7 +12,7 @@ To add CSS to your web page.
 use
 
 ```css
-@import url('https://cdn.jsdelivr.net/npm/@revival0728/markdown-render@lastest/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@revival0728/markdown-render@1.0.0/index.css');
 ```
 in your global css
 
