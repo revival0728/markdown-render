@@ -6,7 +6,7 @@ This markdown render support `katex`, `emoji`, **spoiler container** and automat
 npm install @revival0728/markdown-render
 ```
 
-## Add CSS
+## Adding CSS
 To add CSS to your web page.
 
 use
@@ -19,7 +19,7 @@ in your global css
 or
 
 ```js
-import 'node_module/@revival0728/markdown-render/index.css'
+import 'node_modules/@revival0728/markdown-render/index.css'
 ```
 in your javascript file
 
@@ -65,6 +65,13 @@ Below are the supported options
 The `autoChangeLine` is useful when editing a handout or blog because you don't have to hit the enter key twice.
 
 The `withIndent` is useful when the web page only shows the markdown content.
+
+## Katex Supprot
+It only support **$** when rendering the katex syntax
+
+```markdown
+$e^{i\pi} + 1 = 0$
+```
 
 ## Code Box Highlight and Line Numbers
 If you want to highlight the code in a code box, add language name after the code box syntax.
