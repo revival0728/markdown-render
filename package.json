@@ -1,0 +1,28 @@
+{
+  "name": "@revival0728/markdown-render",
+  "version": "1.0.0",
+  "description": "A markdown render based on markdown-it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/revival0728/markdown-render.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "author": "revival0728",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/revival0728/markdown-render/issues"
+  },
+  "homepage": "https://github.com/revival0728/markdown-render#readme",
+  "dependencies": {
+    "katex": "^0.15.3",
+    "markdown-it": "^13.0.0",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-emoji": "^2.0.2"
+  }
+}
