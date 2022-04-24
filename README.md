@@ -66,17 +66,35 @@ The `autoChangeLine` is useful when editing a handout or blog because you don't 
 
 The `withIndent` is useful when the web page only shows the markdown content.
 
-## Katex Supprot
+## Katex Support
 Only support **$** when rendering the katex syntax
 
 ```markdown
 $e^{i\pi} + 1 = 0$
 ```
+$e^{i\pi} + 1 = 0$
+
+```markdown
+$
+x = \begin{cases}
+   x \quad \text{if } x \geq 0 \\\\
+   -x \quad \text{if } x \lt 0
+\end{cases}
+$
+```
+$
+x = \begin{cases}
+   x \quad \text{if } x \geq 0 \\
+   -x \quad \text{if } x \lt 0
+\end{cases}
+$
+
+To show character **\$** in your markdown content, use **\\\\$** instead.
 
 ## Code Box Highlight and Line Numbers
-If you want to highlight the code in a code box, add language name after the code box syntax.
+If you want to highlight the code in a code box, add the language name after the code box syntax.
 
-The `<codebox>` below represents the syntax **```**
+The `<codebox>` below represents the code box syntax
 
 ```markdown
 <codebox>python
@@ -91,3 +109,6 @@ If you want to add line numbers to the code box, add `:setNumber` after the lang
 print('hello, world')
 <codebox>
 ```
+
+## Example
+Try and see the example markdown at [this web site](https://revival0728-markdown-render.vercel.app)

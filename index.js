@@ -1,22 +1,37 @@
-function renderKatex(md) {
+function replaceByIndex(str, l, r, newStr) {
+    return str.slice(0, l) + newStr + str.slice(r+1)
+}
+
+function renderKatex(html) {
     const katex = require('katex')
 
-    let katexDia = []
-    for(let i = 0; i < md.length; ++i) {
-        if(md[i] == '$') {
-            katexDia.push(i)
+    let allP = html.getElementsByTagName('p')
+    for(let i = 0; i < allP.length; i++) {
+        md = allP[i].innerHTML
+        let katexDia = []
+        for(let i = 0; i < md.length; ++i) {
+            if(md[i] == '$') {
+                if(i-1 >= 0) {
+                    if(md[i-1] == '\\') {
+                        md = replaceByIndex(md, i-1, i-1, '')
+                        continue
+                    }
+                }
+                katexDia.push(i)
+            }
         }
+        let mv = 0      // warning overflow
+        for(let i = 0; i < katexDia.length; i += 2) {
+            let originString = md.substring(katexDia[i]+1+mv, katexDia[i+1]+mv)
+            let katexString = katex.renderToString(originString, {
+                throwOnError: false
+            });
+            md = replaceByIndex(md, katexDia[i]+mv, katexDia[i+1]+mv, katexString)
+            mv += katexString.length-(katexDia[i+1]-katexDia[i]+1)
+        }
+        allP[i].set_content(md)
     }
-    let mv = 0      // warning overflow
-    for(let i = 0; i < katexDia.length; i += 2) {
-        let originString = md.substring(katexDia[i]+1+mv, katexDia[i+1]+mv)
-        let katexString = katex.renderToString(originString, {
-            throwOnError: false
-        });
-        md = md.replace(md.substring(katexDia[i]+mv, katexDia[i+1]+1+mv), katexString)
-        mv += katexString.length-(katexDia[i+1]-katexDia[i]+1)
-    }
-    return md
+    return html
 }
 
 function getDigitLength(number) {
@@ -69,7 +84,7 @@ function setAutoChangeLine(mdString) {
     return res
 }
 
-export function renderMdToHtml(mdString, options={}) {
+exports.renderMdToHtml = function renderMdToHtml(mdString, options={}) {
     const htmlParser = require('node-html-parser')
     const matter = require('gray-matter')
     const hljs = require('highlight.js')
@@ -126,15 +141,18 @@ export function renderMdToHtml(mdString, options={}) {
         mdString = setAutoChangeLine(mdString)
 
     let mdHTML = md.render(mdString)
-
     if(options.withIndent)
-        mdHTML = `<div class="markdown-body markdown-indent" id="markdown-body">${renderKatex(mdHTML)}</div>`
+        mdHTML = `<div class="markdown-body markdown-indent" id="markdown-body">${mdHTML}</div>`
     else
-        mdHTML = `<div class="markdown-body" id="markdown-body">${renderKatex(mdHTML)}</div>`
+        mdHTML = `<div class="markdown-body" id="markdown-body">${mdHTML}</div>`
     mdHTML = htmlParser.parse(mdHTML)
+    mdHTML = mdHTML.getElementById('markdown-body')
+
+    mdHTML = renderKatex(mdHTML)
     mdHTML = addMdTag(mdHTML)
+
     return {
-        content: mdHTML.getElementById('markdown-body').outerHTML,
+        content: mdHTML.outerHTML,
         data: matterResult.data
     }
 }

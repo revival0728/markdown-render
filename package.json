@@ -1,6 +1,6 @@
 {
   "name": "@revival0728/markdown-render",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A markdown render based on markdown-it",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "url": "git+https://github.com/revival0728/markdown-render.git"
   },
   "keywords": [
-    "markdown"
+    "markdown",
+    "render"
   ],
   "author": "revival0728",
   "license": "MIT",
