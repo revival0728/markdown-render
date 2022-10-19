@@ -1,6 +1,6 @@
 {
   "name": "@revival0728/markdown-render",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A markdown render based on markdown-it",
   "main": "index.js",
   "scripts": {
